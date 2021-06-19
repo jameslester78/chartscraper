@@ -35,7 +35,7 @@ def parse_chart_html(url):
     result = ''
 
     for i in range(result_size):
-        result += f"{position[i].text.strip()},{lastweek[i].text.strip()},{title[i].text.strip()},{artist[i].text.strip()},{tchartruns_parsed[i]}\n" 
+        result += f'"{position[i].text.strip()}","{lastweek[i].text.strip()}","{title[i].text.strip()}","{artist[i].text.strip()}","{tchartruns_parsed[i]}"\n'
 
     
     logging.debug(f"{result.strip()}")
@@ -73,13 +73,13 @@ def geturls(start,end):
 
 if __name__ == '__main__':
     
-    urllist = geturls('19990101','19990106')
+    urllist = geturls('19991121','19991231')
 
     logging.debug(f"{urllist=}")
 
     output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
-    os.remove(output_path) #delete the output file if it exists
+    #os.remove(output_path) #delete the output file if it exists
 
     for i in urllist:
         writefile(i,output_path)
-        time.sleep(3)
+        time.sleep(5) #pause
