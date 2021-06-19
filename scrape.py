@@ -1,7 +1,9 @@
-import requests,os,datetime
+import requests,os,datetime,time,logging
 from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 
+logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
+logging.disable(logging.CRITICAL)
 
 def parse_chart_html(url):
     '''take an url and spit out a csv file ready for importing to a db'''
@@ -34,6 +36,9 @@ def parse_chart_html(url):
 
     for i in range(result_size):
         result += f"{position[i].text.strip()},{lastweek[i].text.strip()},{title[i].text.strip()},{artist[i].text.strip()},{tchartruns_parsed[i]}\n" 
+
+    
+    logging.debug(f"{result.strip()}")
 
     return result.strip() #remove the last new line charecter
 
@@ -68,9 +73,13 @@ def geturls(start,end):
 
 if __name__ == '__main__':
     
-    urllist = geturls('20200101','20200228')
+    urllist = geturls('19990101','19990106')
+
+    logging.debug(f"{urllist=}")
+
     output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
     os.remove(output_path) #delete the output file if it exists
 
     for i in urllist:
         writefile(i,output_path)
+        time.sleep(3)
