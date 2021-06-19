@@ -40,7 +40,7 @@ def parse_chart_html(url):
     
     logging.debug(f"{result.strip()}")
 
-    return result.strip() #remove the last new line charecter
+    return result#.strip() #remove the last new line charecter
 
 def writefile(url,output_location):
     '''apends scraped data to output file'''
@@ -73,13 +73,13 @@ def geturls(start,end):
 
 if __name__ == '__main__':
     
-    urllist = geturls('19991121','19991231')
+    urllist = geturls('19980705','19981231')
 
     logging.debug(f"{urllist=}")
 
     output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
-    #os.remove(output_path) #delete the output file if it exists
+    os.remove(output_path) #delete the output file if it exists
 
     for i in urllist:
         writefile(i,output_path)
-        time.sleep(5) #pause
+        time.sleep(10) #pause
