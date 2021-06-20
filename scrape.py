@@ -17,7 +17,7 @@ def parse_chart_html(url):
     artist = soup.find_all(class_='artist')
     tchartruns = soup.find_all(class_='t-chart-runs')
     tchartruns_parsed=[]
-
+    label = soup.find_all(class_='label-cat')
 
     for i in tchartruns: #extract the date from tchartruns
         tchartruns_parsed.append (datetime.strptime(tchartruns[1].a.attrs['data-chartid'].split('-')[1],'%Y%m%d').date())
@@ -35,7 +35,7 @@ def parse_chart_html(url):
     result = ''
 
     for i in range(result_size):
-        result += f'"{position[i].text.strip()}","{lastweek[i].text.strip()}","{title[i].text.strip()}","{artist[i].text.strip()}","{tchartruns_parsed[i]}"\n'
+        result += f'"{position[i].text.strip()}","{lastweek[i].text.strip()}","{title[i].text.strip()}","{artist[i].text.strip()}","{label[i].text.strip()}","{tchartruns_parsed[i]}"\n'
 
     
     logging.debug(f"{result.strip()}")
