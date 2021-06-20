@@ -73,7 +73,9 @@ if __name__ == '__main__':
     logging.debug(f"{urllist=}")
 
     output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
-    os.remove(output_path) #delete the output file if it exists
+
+    if os.path.isfile(output_path):
+        os.remove(output_path) #delete the output file if it exists
 
     for i in urllist:
         writefile(i,output_path)
