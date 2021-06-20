@@ -1,14 +1,24 @@
-import requests,os,datetime,time,logging
+import requests,os,datetime,time,logging,traceback
 from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 
+from requests.exceptions import SSLError
+
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
 
 def parse_chart_html(url):
     '''take an url and spit out a csv file ready for importing to a db'''
+    
+    try:
+        page = requests.get(url) #get the html
+    except:
+        with open('c:\\temp\log.txt',"a") as file: #if this works turn this into a parameter
+            file.write(datetime.now().strftime("%d/%b/%Y %H:%M:%S") + ' - Error - '+url + '\n')
+            print (datetime.now().strftime("%d/%b/%Y %H:%M:%S") + ' - Error - '+url)
+            result = ''
+            traceback.print_exc()
+            return result
 
-    page = requests.get(url) #get the html
     soup = BeautifulSoup(page.content,'html.parser') #create a BS object
 
     position = soup.find_all(class_='position')
@@ -66,10 +76,33 @@ def geturls(start,end):
     return output
 
 
-if __name__ == '__main__':
-    
-    urllist = geturls('19980705','19980705')
+def process_load_file():
+        '''after a lengthy scrape session, pull any failure urls (from the log) into a load file and process it here'''
 
+        urllist = []
+        
+        with open('c:\\temp\load.txt',"r") as file:
+            urls = file.readlines()
+            for i in urls:
+                urllist.append (i.strip())
+
+        output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
+
+        if os.path.isfile(output_path):
+                os.remove(output_path) #delete the output file if it exists
+
+        for i in urllist:
+            writefile(i,output_path)
+            time.sleep(3) #pause
+
+
+
+
+if __name__ == '__main__':
+
+    logging.disable(logging.CRITICAL)
+    
+    urllist = geturls('20010101','20060101')
     logging.debug(f"{urllist=}")
 
     output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
@@ -79,4 +112,4 @@ if __name__ == '__main__':
 
     for i in urllist:
         writefile(i,output_path)
-        time.sleep(10) #pause
+        time.sleep(3) #pause
