@@ -15,13 +15,8 @@ def parse_chart_html(url):
     lastweek = soup.find_all(class_='last-week')
     title = soup.find_all(class_='title')
     artist = soup.find_all(class_='artist')
-    tchartruns = soup.find_all(class_='t-chart-runs')
-    tchartruns_parsed=[]
     label = soup.find_all(class_='label-cat')
-
-    for i in tchartruns: #extract the date from tchartruns
-        tchartruns_parsed.append (datetime.strptime(tchartruns[1].a.attrs['data-chartid'].split('-')[1],'%Y%m%d').date())
-
+    tchartruns = [datetime.strptime(i.a['data-chartid'].split('-')[1],'%Y%m%d').date() for i in soup.find_all(class_='t-chart-runs')]
 
         #tchartruns contains the following, all we want to do is extract 20210624 from each list entry
         #
@@ -35,7 +30,7 @@ def parse_chart_html(url):
     result = ''
 
     for i in range(result_size):
-        result += f'"{position[i].text.strip()}","{lastweek[i].text.strip()}","{title[i].text.strip()}","{artist[i].text.strip()}","{label[i].text.strip()}","{tchartruns_parsed[i]}"\n'
+        result += f'"{position[i].text.strip()}","{lastweek[i].text.strip()}","{title[i].text.strip()}","{artist[i].text.strip()}","{label[i].text.strip()}","{tchartruns[i]}"\n'
 
     
     logging.debug(f"{result.strip()}")
@@ -73,7 +68,7 @@ def geturls(start,end):
 
 if __name__ == '__main__':
     
-    urllist = geturls('19980705','19981231')
+    urllist = geturls('19980705','19980705')
 
     logging.debug(f"{urllist=}")
 
