@@ -19,8 +19,10 @@ def parse_chart_html(url):
             traceback.print_exc()
             return result
 
+   
+     
     soup = BeautifulSoup(page.content,'html.parser') #create a BS object
-
+    
     position = soup.find_all(class_='position')
     lastweek = soup.find_all(class_='last-week')
     title = soup.find_all(class_='title')
@@ -49,8 +51,8 @@ def parse_chart_html(url):
 
 def writefile(url,output_location):
     '''apends scraped data to output file'''
-    with open(output_location,"a") as file:
-        file.write(parse_chart_html(url))
+    with open(output_location,"ab") as file: #b, need to open in binary mode to allow saving in utf8
+        file.write(parse_chart_html(url).encode('utf8')) #handle unicode
 
 def generateurl(date):
     '''takes a date and spits out a url to scrape'''
@@ -58,7 +60,7 @@ def generateurl(date):
     date_conv = datetime.strptime(date,'%Y%m%d') #convert date to datetime format
     date_new = (date_conv + timedelta(days = 6-date_conv.weekday())).date() #we want the first sunday from the input date, sunday = weekday:6
 
-    return "https://www.officialcharts.com/charts/singles-chart/" + date_new.strftime("%Y%m%d")+'/7501/'
+    return "https://www.officialcharts.com/charts/albums-chart/" + date_new.strftime("%Y%m%d")+'/7502/'
 
 def geturls(start,end):
     '''outputs a list of urls to scrape, one page per sunday between start and end date'''
@@ -102,7 +104,7 @@ if __name__ == '__main__':
 
     logging.disable(logging.CRITICAL)
     
-    urllist = geturls('20010101','20060101')
+    urllist = geturls('19600101','20210601')
     logging.debug(f"{urllist=}")
 
     output_path = 'c:\\temp\output.txt' #\t = tab so escape the slash
