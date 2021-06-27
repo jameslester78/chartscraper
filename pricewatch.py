@@ -1,3 +1,5 @@
+#youll need to create sqllie db and populate the product table with stuff you want to track before you can use this
+
 import sqlite3
 
 def get_urls():
