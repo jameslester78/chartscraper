@@ -6,7 +6,7 @@ def get_urls():
 
     '''fetch the urls we want to track from the db'''
 
-    conn = sqlite3.connect('pythonsqlite.db') #file has to sit in the same dir as code
+    conn = sqlite3.connect('pythonsqlite.db') #file has to sit in the same dir as code, if you run it from scheduler, i had to put it in sys32
     x= conn.cursor()
     sel = 'select name,url from product'
     return x.execute(sel).fetchall()
