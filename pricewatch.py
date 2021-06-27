@@ -78,7 +78,7 @@ def send_email(product,price):
     import pickle
 
 
-    with open('vars.pkl','rb') as f: 
+    with open('C:\\Users\\james\\Documents\\python\\vars.pkl','rb') as f: 
         password, email = pickle.load(f)
 
     port = 465  # For SSL
