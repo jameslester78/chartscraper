@@ -1,4 +1,7 @@
 #youll need to create sqllie db and populate the product table with stuff you want to track before you can use this
+#try using https://realpython.com/python-send-email/#yagmail
+#make it wait for an internet connection
+
 
 import sqlite3
 
