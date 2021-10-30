@@ -1,6 +1,7 @@
 #youll need to create sqllie db and populate the product table with stuff you want to track before you can use this
 #try using https://realpython.com/python-send-email/#yagmail
 #make it wait for an internet connection
+#source control the product data
 
 
 import sqlite3
@@ -155,3 +156,10 @@ with open('vars.pkl','wb') as f:
 
 
 '''
+
+
+
+conn = sqlite3.connect('pythonsqlite.db') #file has to sit in the same dir as code, if you run it from scheduler, i had to put it in sys32
+x= conn.cursor()
+sel = 'select name,url from product'
+print (x.execute(sel).fetchall())
