@@ -90,8 +90,7 @@ def send_email(product,price):
     sender_email = email
     receiver_email = email
     password = password
-    message = f"""\
-    Subject: Price Alert
+    message = f"""Subject: Price Alert
 
     The price of {product} has changed, it now costs {price}"""
 
