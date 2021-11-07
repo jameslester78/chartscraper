@@ -77,7 +77,7 @@ def isconnected():
 
 
 while isconnected() == False:
-    time.sleep(5) #loop every 5 seconds until there is an internet connection
+    time.sleep(60) #loop every 60 seconds until there is an internet connection
 
 jsonPath = 'C://Users//james//Dropbox//temp//events.json' #WE WILL DUMP THE JSON FILE HERE
 
