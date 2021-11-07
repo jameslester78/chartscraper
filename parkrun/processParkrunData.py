@@ -2,7 +2,7 @@
 todo:
 
 sqllite path parameter
-move the email funtion to a seperate utility file
+move the email function, wait for internet function to a seperate utility file
 
 DONE:
 detect new courses
@@ -12,13 +12,14 @@ exclude list
 automate downloading json
 automate daily execution
 back up json - dropbox
+wait for internet connection
 '''
 
 import json
 import pandas as pd 
 from pandas import json_normalize
 from geopy.distance import distance
-import sqlite3,urllib.request
+import sqlite3,urllib.request,socket,time
 
 #ONE OF THE FOLLOWING LOCATIONS SHOULD BE SELECTED AS HOME IN ORDER TO FIND THE CLOSEST AVAILABLE PARKRUN
 #IF YOU ADD A NEW HOME ALSO ADD THE COORDINATES
@@ -34,7 +35,8 @@ elif runfrom == 'borehamwood':
 
 #MANUALLY ADD COMPLETED RUNS HERE
 completed = ['aldenham','canonspark','sunnyhill','wolverhamptonNew','wolverhampton','eastpark','dudley','walsall','telford','chasewater','cannockchase','sandwellvalley','isabeltrail'\
-            ,'severnvalleycountry','perryhall','woodgatevalleycountrypark','suttonpark','edgbastonreservoir','beacon','cannonhill','oaklands','babbsmill','kingsburywater','brueton','shrewsbury']
+            ,'severnvalleycountry','perryhall','woodgatevalleycountrypark','suttonpark','edgbastonreservoir','beacon','cannonhill','oaklands','babbsmill','kingsburywater','brueton','shrewsbury'
+            ,'oakhill']
 
 def send_email(run_list):
 
@@ -62,6 +64,20 @@ def send_email(run_list):
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
+
+def isconnected():
+
+    try:
+        socket.create_connection(("1.1.1.1",53))
+        return True
+
+    except:
+        print ('no internet connection')
+        return False
+
+
+while isconnected() == False:
+    time.sleep(5) #loop every 5 seconds until there is an internet connection
 
 jsonPath = 'C://Users//james//Dropbox//temp//events.json' #WE WILL DUMP THE JSON FILE HERE
 
