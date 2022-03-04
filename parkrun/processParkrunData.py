@@ -36,7 +36,7 @@ elif runfrom == 'borehamwood':
 #MANUALLY ADD COMPLETED RUNS HERE
 completed = ['aldenham','canonspark','sunnyhill','wolverhamptonNew','wolverhampton','eastpark','dudley','walsall','telford','chasewater','cannockchase','sandwellvalley','isabeltrail'\
             ,'severnvalleycountry','perryhall','woodgatevalleycountrypark','suttonpark','edgbastonreservoir','beacon','cannonhill','oaklands','babbsmill','kingsburywater','brueton','shrewsbury'
-            ,'oakhill']
+            ,'oakhill','allypally','cassiobury','southoxhey','stalbans','hampsteadheath']
 
 def send_email(run_list):
 
