@@ -19,4 +19,4 @@ def compareAthetes (runnerA,runnerB):
     return (pd.merge(df1, df2, how ='inner', on =['Event','Run Date']).to_string(index=False))
 
 
-print(compareAthetes (1187239,336415))
+print(compareAthetes (1187239,505504))

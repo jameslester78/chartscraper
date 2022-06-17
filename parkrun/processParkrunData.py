@@ -15,11 +15,15 @@ back up json - dropbox
 wait for internet connection
 '''
 
+import sys
+sys.path.append(r'C:\Users\james\Documents\python') #location of sendEmail.py
+
 import json
 import pandas as pd 
 from pandas import json_normalize
 from geopy.distance import distance
 import sqlite3,urllib.request,socket,time
+from sendEmail import sendEmail
 
 #ONE OF THE FOLLOWING LOCATIONS SHOULD BE SELECTED AS HOME IN ORDER TO FIND THE CLOSEST AVAILABLE PARKRUN
 #IF YOU ADD A NEW HOME ALSO ADD THE COORDINATES
@@ -38,32 +42,32 @@ completed = ['aldenham','canonspark','sunnyhill','wolverhamptonNew','wolverhampt
             ,'severnvalleycountry','perryhall','woodgatevalleycountrypark','suttonpark','edgbastonreservoir','beacon','cannonhill','oaklands','babbsmill','kingsburywater','brueton','shrewsbury'
             ,'oakhill','allypally','cassiobury','southoxhey','stalbans','hampsteadheath']
 
-def send_email(run_list):
+# def send_email(run_list):
 
-    '''send the email, you'll need to create a pickle file with gmail account and password in it, code to create file down the bottom'''
+#     '''send the email, you'll need to create a pickle file with gmail account and password in it, code to create file down the bottom'''
 
-    import smtplib, ssl
-    import pickle
+#     import smtplib, ssl
+#     import pickle
 
 
-    with open('C:\\Users\\james\\Documents\\python\\vars.pkl','rb') as f: 
-        password, email = pickle.load(f)
+#     with open('C:\\Users\\james\\Documents\\python\\vars.pkl','rb') as f: 
+#         password, email = pickle.load(f)
 
-    print(email)     
+#     print(email)     
 
-    port = 465  # For SSL
-    smtp_server = "smtp.gmail.com"
-    sender_email = email
-    receiver_email = email
-    password = password
-    message = f"""Subject: New Parkrun
+#     port = 465  # For SSL
+#     smtp_server = "smtp.gmail.com"
+#     sender_email = email
+#     receiver_email = email
+#     password = password
+#     message = f"""Subject: New Parkrun
 
-    There is a new Parkrun: {run_list}"""
+#     There is a new Parkrun: {run_list}"""
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+#     context = ssl.create_default_context()
+#     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+#         server.login(sender_email, password)
+#         server.sendmail(sender_email, receiver_email, message)
 
 def isconnected():
 
@@ -149,7 +153,7 @@ neweventCount = newEventsDF.shape[0] #shape function returns (number of rows, nu
 if neweventCount >0:
     run_list = ",".join(newEventsDF["eventName"].values.tolist())
     print (",".join(newEventsDF["eventName"].values.tolist()))
-    send_email(run_list)
+    sendEmail('New parkrun',run_list)
 
 
 
