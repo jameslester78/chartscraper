@@ -84,4 +84,5 @@ if neweventCount >0:
     sendEmail('New parkrun',run_list)
 
 
+print('parkrun scrape complete')
 time.sleep(5) #delay to allow inspection for error messages
