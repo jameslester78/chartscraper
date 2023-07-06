@@ -1,5 +1,5 @@
 import sys
-sys.path.append(r'C:\Users\james\Documents\python') #location of sendEmail.py
+sys.path.append(r'C:\Users\james lester\Documents\python') #location of sendEmail.py
 
 import json
 import pandas as pd 
@@ -22,7 +22,7 @@ def isconnected():
 while isconnected() == False:
     time.sleep(60) #loop every 60 seconds until there is an internet connection
 
-jsonPath = 'C://Users//james//Dropbox//temp//events.json' #WE WILL DUMP THE JSON FILE HERE
+jsonPath = 'C://Users//james lester//Dropbox//temp//events.json' #WE WILL DUMP THE JSON FILE HERE
 
 
 urllib.request.urlretrieve('https://images.parkrun.com/events.json',jsonPath) #download the file
@@ -40,7 +40,7 @@ q=q[(q["properties.countrycode"]==97) & (q["properties.seriesid"]==1) ][["id","p
 q=q.rename(columns={'properties.eventname':'eventName'}) #rename column
 
 
-conn = sqlite3.connect('C:\\Users\\james\\Dropbox\\temp\\parkrun.db')#create db
+conn = sqlite3.connect('C:\\Users\\james lester\\Dropbox\\temp\\parkrun.db')#create db
 c=conn.cursor()#create connection
 q.to_sql('stg_runs',conn, if_exists='replace')#upload data
 

@@ -5,12 +5,12 @@ with open('c:\\temp\\eventsRun.txt','w') as f: ##initialise file
 
 
 
-with open('c:\\temp\\runnersDedupes1.txt') as file: #a containing each parkrun name on each line
+with open('c:\\temp\\runners.txt') as file: #a containing each parkrun name on each line
     lines = file.readlines() #read the file into a variable
 
 lineNum =1
 
-for line in lines[98198:]:
+for line in lines[:]:
     url = (line.rstrip()) #gets rid of new line char
     print (lineNum)
 
@@ -33,7 +33,7 @@ for line in lines[98198:]:
 
     with open('c:\\temp\\eventsRun.txt','ab') as f: #b - bytes - unicode
 
-        f.write(df.to_csv(index=False,header=False, line_terminator='\n').encode('utf8')) #write it to a file, data contains unicode
+        f.write(df.to_csv(index=False,header=False, lineterminator='\n').encode('utf8')) #write it to a file, data contains unicode
 
     lineNum +=1
 

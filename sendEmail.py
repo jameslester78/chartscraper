@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 
 def sendEmail(subject,body):
 
-    pickle_path = r"C:\Users\james\Documents\python\token.pickle"
+    pickle_path = r"C:\Users\james lester\Documents\python\token.pickle"
     creds = pickle.load(open(pickle_path, 'rb'))
     service = googleapiclient.discovery.build('gmail', 'v1', credentials=creds)
 

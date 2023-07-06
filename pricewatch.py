@@ -3,12 +3,13 @@
 
 
 import sqlite3
+import time
 
 def get_urls():
 
     '''fetch the urls we want to track from the db'''
 
-    conn = sqlite3.connect('pythonsqlite.db') #file has to sit in the same dir as code, if you run it from scheduler, i had to put it in sys32
+    conn = sqlite3.connect('C:\\Users\\James Lester\Dropbox\\temp\pythonsqlite.db') 
     x= conn.cursor()
     sel = 'select name,url from product'
     return x.execute(sel).fetchall()
@@ -26,7 +27,7 @@ def get_price(product,url):
 
     json = json.loads(page)
     price = json['products'][0]['retail_price']['price']
-
+    print (f"{price=}")
 
     return price,product
 
@@ -34,7 +35,7 @@ def ins_data(val,product):
 
     '''insert the current price into the db'''
 
-    conn = sqlite3.connect('pythonsqlite.db')
+    conn = sqlite3.connect('C:\\Users\\James Lester\Dropbox\\temp\pythonsqlite.db')
     x= conn.cursor()
 
     ins = 'insert into history (test,product) values ("'+str(val)+'","'+product+'")'
@@ -47,7 +48,7 @@ def get_latest_value(product):
 
     '''find the last recorded price from the db'''
 
-    conn = sqlite3.connect('pythonsqlite.db')
+    conn = sqlite3.connect('C:\\Users\\James Lester\Dropbox\\temp\pythonsqlite.db')
     x= conn.cursor()
 
     sel =  f'select test from history where product = "{product}" order by date desc limit 1'
@@ -72,30 +73,31 @@ def has_price_changed(old,new):
     else:
         return 1
 
-def send_email(product,price):
 
-    '''send the email, you'll need to create a pickle file with gmail account and password in it, code to create file down the bottom'''
+#def send_email(product,price):
 
-    import smtplib, ssl
-    import pickle
+#    '''send the email, you'll need to create a pickle file with gmail account and password in it, code to create file down the bottom'''
+
+ #   import smtplib, ssl
+ #   import pickle
 
 
-    with open('C:\\Users\\james\\Documents\\python\\vars.pkl','rb') as f: 
-        password, email = pickle.load(f)
+    # with open('C:\\Users\\james lester\\Documents\\python\\vars.pkl','rb') as f: 
+    #     password, email = pickle.load(f)
 
-    port = 465  # For SSL
-    smtp_server = "smtp.gmail.com"
-    sender_email = email
-    receiver_email = email
-    password = password
-    message = f"""Subject: Price Alert
+    # port = 465  # For SSL
+    # smtp_server = "smtp.gmail.com"
+    # sender_email = email
+    # receiver_email = email
+    # password = password
+    # message = f"""Subject: Price Alert
 
-    The price of {product} has changed, it now costs {price}"""
+    # The price of {product} has changed, it now costs {price}"""
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+    # context = ssl.create_default_context()
+    # with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+    #     server.login(sender_email, password)
+    #     server.sendmail(sender_email, receiver_email, message)
 
 
 for i in get_urls():
@@ -110,53 +112,63 @@ for i in get_urls():
 
     prev = get_latest_value(product)
 
-    #print (f"{prev=}")
+    print (f"{prev=}")
 
-    ins_data(price,product)
+
+    try:
+        ins_data(price,product)
+
+    except Exception as e:
+        print(str(e))
 
     changed = has_price_changed(prev,price)
 
     if changed  == 1:
-        send_email(product,price) 
+         print("price change")
+         time.sleep(10)
+         ##send_email(product,price) 
         
 
 
 
 
 
-'''
+# '''
 
-create your password file
+# create your password file
 
-password = 'your email password'
-email = 'your email address'
+# password = 'your email password'
+# email = 'your email address'
 
-with open('vars.pkl','wb') as f:
-    pickle.dump([password,email],f)
-'''
+# with open('vars.pkl','wb') as f:
+#     pickle.dump([password,email],f)
+# '''
 
-'''
+# '''
 
-    CREATE The following tables in your sql lite db
+#     CREATE The following tables in your sql lite db
 
-    CREATE TABLE history (
-        date                  DEFAULT (CURRENT_TIMESTAMP),
-        test,
-        product VARCHAR (100) 
-    );
-
-
-    CREATE TABLE product (
-        name,
-        url
-    );
+#     CREATE TABLE history (
+#         date                  DEFAULT (CURRENT_TIMESTAMP),
+#         test,
+#         product VARCHAR (100) 
+#     );
 
 
-'''
+#     CREATE TABLE product (
+#         name,
+#         url
+#     );
 
+
+# '''
 
 
 conn = sqlite3.connect('pythonsqlite.db') #file has to sit in the same dir as code, if you run it from scheduler, i had to put it in sys32
 x= conn.cursor()
 sel = 'select name,url from product'
 print (x.execute(sel).fetchall())
+
+
+print("test")
+time.sleep(5)
